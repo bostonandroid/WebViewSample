@@ -13,6 +13,11 @@ import android.view.KeyEvent;
 import android.graphics.Bitmap;
 import android.view.Window;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.webkit.DownloadListener;
+import android.content.ActivityNotFoundException;
+
 public class WebActivity extends Activity {
   private WebView page;
 
@@ -49,6 +54,7 @@ public class WebActivity extends Activity {
       WebSettings s = this.page.getSettings();
       s.setJavaScriptEnabled(true);
       this.page.setWebViewClient(new MyWebViewClient());
+      this.page.setDownloadListener(new DefaultDownloadListener());
     }
     return this.page;
   }
@@ -68,6 +74,14 @@ public class WebActivity extends Activity {
     @Override
     public void onPageFinished(WebView view, String url) {
       setProgressBarIndeterminateVisibility(false);
+    }
+  }
+
+  private class DefaultDownloadListener implements DownloadListener {
+    public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
+      Intent i = new Intent(Intent.ACTION_VIEW);
+      i.setDataAndType(Uri.parse(url), mimetype);
+      startActivity(i);
     }
   }
 }
