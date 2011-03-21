@@ -74,6 +74,7 @@ public class WebActivity extends Activity {
     @Override
     public void onPageFinished(WebView view, String url) {
       setProgressBarIndeterminateVisibility(false);
+      removeElementById(view, "external-links");
     }
   }
 
@@ -83,5 +84,9 @@ public class WebActivity extends Activity {
       i.setDataAndType(Uri.parse(url), mimetype);
       startActivity(i);
     }
+  }
+
+  private void removeElementById(WebView view, String id) {
+    view.loadUrl("javascript:(function() {document.getElementById('"+id+"').style.display = 'none';})();");
   }
 }
