@@ -1,0 +1,5 @@
+gen
+bin
+local.properties
+*swp
+UsernamePassword.java
