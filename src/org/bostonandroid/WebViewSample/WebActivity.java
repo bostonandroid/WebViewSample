@@ -10,12 +10,17 @@ import android.webkit.WebViewClient;
 
 import android.view.KeyEvent;
 
+import android.graphics.Bitmap;
+import android.view.Window;
+
 public class WebActivity extends Activity {
   private WebView page;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
     setContentView(R.layout.main);
 
     if (savedInstanceState == null)
@@ -53,6 +58,16 @@ public class WebActivity extends Activity {
     public boolean shouldOverrideUrlLoading(WebView v, String url) {
       v.loadUrl(url);
       return true;
+    }
+
+    @Override
+    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+      setProgressBarIndeterminateVisibility(true);
+    }
+
+    @Override
+    public void onPageFinished(WebView view, String url) {
+      setProgressBarIndeterminateVisibility(false);
     }
   }
 }
