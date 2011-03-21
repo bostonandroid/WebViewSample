@@ -8,6 +8,8 @@ import android.webkit.WebSettings;
 
 import android.webkit.WebViewClient;
 
+import android.view.KeyEvent;
+
 public class WebActivity extends Activity {
   private WebView page;
 
@@ -25,6 +27,15 @@ public class WebActivity extends Activity {
   @Override
   protected void onSaveInstanceState(Bundle outState) {
     page().saveState(outState);
+  }
+
+  @Override
+  public boolean onKeyDown(int keyCode, KeyEvent event) {
+    if (keyCode == KeyEvent.KEYCODE_BACK && page().canGoBack()) {
+      page().goBack();
+      return true;
+    } else
+      return super.onKeyDown(keyCode, event);
   }
 
   private WebView page() {
