@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebSettings;
 
+import android.webkit.WebViewClient;
+
 public class WebActivity extends Activity {
   private WebView page;
 
@@ -30,7 +32,16 @@ public class WebActivity extends Activity {
       this.page = (WebView)findViewById(R.id.webpage);
       WebSettings s = this.page.getSettings();
       s.setJavaScriptEnabled(true);
+      this.page.setWebViewClient(new MyWebViewClient());
     }
     return this.page;
+  }
+
+  private class MyWebViewClient extends WebViewClient {
+    @Override
+    public boolean shouldOverrideUrlLoading(WebView v, String url) {
+      v.loadUrl(url);
+      return true;
+    }
   }
 }
