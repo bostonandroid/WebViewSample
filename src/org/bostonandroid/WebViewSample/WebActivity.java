@@ -14,9 +14,16 @@ public class WebActivity extends Activity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
 
-    page().loadUrl("http://bostonandroid.org/");
+    if (savedInstanceState == null)
+      page().loadUrl("http://bostonandroid.org/");
+    else
+      page().restoreState(savedInstanceState);
   }
 
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    page().saveState(outState);
+  }
 
   private WebView page() {
     if (this.page == null) {
